@@ -66,7 +66,6 @@ export async function POST(request: Request) {
           email: body.email,
           phone_number: body.phone_number,
           role: "vehicle_owner",
-          created_at: new Date().toISOString(),
         },
       ])
       .select()
