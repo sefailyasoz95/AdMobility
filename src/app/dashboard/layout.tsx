@@ -19,12 +19,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 			<div className='flex flex-1'>
 				<Sidebar />
 				<main className='flex-1 p-6 md:p-8'>
+					{/* Dark Mode Test */}
+					<div className='mb-4 p-2 bg-white dark:bg-gray-800 text-black dark:text-white border rounded'>
+						This text should be black in light mode and white in dark mode
+					</div>
+
 					{/* Vehicle Registration Alert */}
 					{!isLoading && user && userRole === "vehicle_owner" && !hasVehicle && (
 						<div className='mb-6 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 flex items-start'>
 							<AlertCircle className='h-5 w-5 text-yellow-500 mt-0.5 mr-3 flex-shrink-0' />
 							<div>
-								<h3 className='font-medium text-yellow-800 dark:text-yellow-300'>Vehicle Registration Required</h3>
+								<h3 className='font-medium text-black dark:text-yellow-300'>Vehicle Registration Required</h3>
 								<p className='text-sm text-yellow-700 dark:text-yellow-400 mt-1'>
 									You need to register your vehicle to access all features.
 									{pathname !== "/dashboard/vehicle/new" && (

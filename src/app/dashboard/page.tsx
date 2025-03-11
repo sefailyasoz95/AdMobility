@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import AdvertiserDashboard from "./components/AdvertiserDashboard";
 import VehicleOwnerDashboard from "./components/VehicleOwnerDashboard";
-import DashboardLayout from "./components/DashboardLayout";
 
 export default function Dashboard() {
 	const { user, userRole, isLoading } = useAuth();
@@ -36,7 +35,7 @@ export default function Dashboard() {
 	}
 
 	return (
-		<DashboardLayout>
+		<>
 			{userRole === "advertiser" ? (
 				<AdvertiserDashboard user={user} />
 			) : userRole === "vehicle_owner" ? (
@@ -46,6 +45,6 @@ export default function Dashboard() {
 					<p className='text-lg text-foreground/70'>Unknown user role. Please contact support.</p>
 				</div>
 			)}
-		</DashboardLayout>
+		</>
 	);
 }
