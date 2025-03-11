@@ -1,7 +1,7 @@
 // User Types
-type UserRole = "vehicle_owner" | "advertiser";
+export type UserRole = "vehicle_owner" | "advertiser";
 
-interface User {
+export interface User {
   id: string; // UUID
   full_name: string;
   email: string;
@@ -12,13 +12,13 @@ interface User {
 }
 
 // Vehicle Types
-type VehicleStatus =
+export type VehicleStatus =
   | "open_for_offers"
   | "offer_under_review"
   | "ad_active"
   | "closed_for_offers";
 
-interface Vehicle {
+export interface Vehicle {
   id: string;
   owner_id: string;
   make: string;
@@ -35,7 +35,7 @@ interface Vehicle {
 }
 
 // Advertiser Types
-interface Advertiser {
+export interface Advertiser {
   id: string;
   user_id: string;
   company_name: string;
@@ -47,7 +47,7 @@ interface Advertiser {
 }
 
 // Offer Types
-type OfferStatus =
+export type OfferStatus =
   | "pending"
   | "accepted"
   | "rejected"
@@ -55,7 +55,7 @@ type OfferStatus =
   | "completed"
   | "canceled";
 
-interface Offer {
+export interface Offer {
   id: string;
   advertiser_id: string;
   vehicle_id: string;
@@ -71,9 +71,9 @@ interface Offer {
 }
 
 // Payment Types
-type PaymentStatus = "pending" | "processed" | "failed";
+export type PaymentStatus = "pending" | "processed" | "failed";
 
-interface Payment {
+export interface Payment {
   id: string;
   offer_id: string;
   advertiser_id: string;
@@ -91,7 +91,7 @@ interface Payment {
 }
 
 // Daily Report Types
-interface DailyReport {
+export interface DailyReport {
   id: string;
   offer_id: string;
   vehicle_owner_id: string;
@@ -105,10 +105,10 @@ interface DailyReport {
 }
 
 // Penalty Types
-type PenaltyReason = "early_ad_removal" | "missed_daily_photo";
-type PenaltyStatus = "pending" | "deducted" | "waived";
+export type PenaltyReason = "early_ad_removal" | "missed_daily_photo";
+export type PenaltyStatus = "pending" | "deducted" | "waived";
 
-interface Penalty {
+export interface Penalty {
   id: string;
   offer_id: string;
   vehicle_owner_id: string;
@@ -122,10 +122,10 @@ interface Penalty {
 }
 
 // Ad Material Delivery Types
-type DeliveryMethod = "shipping" | "in_person";
-type DeliveryStatus = "pending" | "delivered" | "confirmed";
+export type DeliveryMethod = "shipping" | "in_person";
+export type DeliveryStatus = "pending" | "delivered" | "confirmed";
 
-interface AdMaterialDelivery {
+export interface AdMaterialDelivery {
   id: string;
   offer_id: string;
   delivery_method: DeliveryMethod;
@@ -137,7 +137,7 @@ interface AdMaterialDelivery {
 }
 
 // Notification Types
-interface Notification {
+export interface Notification {
   id: string;
   user_id: string;
   message: string;
@@ -148,7 +148,7 @@ interface Notification {
 }
 
 // API Response Types
-interface ApiResponse<T> {
+export interface ApiResponse<T> {
   success: boolean;
   data?: T;
   error?: string;
@@ -156,23 +156,14 @@ interface ApiResponse<T> {
 }
 
 // Form Types
-interface VehicleOwnerRegistrationForm {
+export interface VehicleOwnerRegistrationForm {
   full_name: string;
   email: string;
   password: string;
   phone_number?: string;
-  vehicle: {
-    make: string;
-    model: string;
-    year: number;
-    plate_number: string;
-    mileage: number;
-    average_daily_km?: number;
-    city: string;
-  };
 }
 
-interface AdvertiserRegistrationForm {
+export interface AdvertiserRegistrationForm {
   full_name: string;
   email: string;
   password: string;
@@ -184,7 +175,7 @@ interface AdvertiserRegistrationForm {
   };
 }
 
-interface OfferForm {
+export interface OfferForm {
   vehicle_id: string;
   start_date: Date;
   end_date: Date;
@@ -194,7 +185,7 @@ interface OfferForm {
   tracking_number?: string;
 }
 
-interface DailyReportForm {
+export interface DailyReportForm {
   offer_id: string;
   photo_url: string;
   mileage: number;
@@ -202,7 +193,7 @@ interface DailyReportForm {
 }
 
 // Context Types
-interface AuthContextType {
+export interface AuthContextType {
   user: User | null;
   loading: boolean;
   error: string | null;
@@ -213,10 +204,34 @@ interface AuthContextType {
   ) => Promise<void>;
 }
 
-interface NotificationContextType {
+export interface NotificationContextType {
   notifications: Notification[];
   unreadCount: number;
   markAsRead: (id: string) => Promise<void>;
   markAllAsRead: () => Promise<void>;
   fetchNotifications: () => Promise<void>;
+}
+
+// Form Validation Types for React Hook Form
+export interface VehicleOwnerFormValues {
+  full_name: string;
+  email: string;
+  password: string;
+  confirm_password: string;
+  phone_number?: string;
+  terms: boolean;
+}
+
+export interface AdvertiserFormValues {
+  full_name: string;
+  email: string;
+  password: string;
+  confirm_password: string;
+  phone_number?: string;
+  company: {
+    company_name: string;
+    website?: string;
+    industry?: string;
+  };
+  terms: boolean;
 }

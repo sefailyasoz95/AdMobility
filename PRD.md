@@ -110,5 +110,5 @@ Future Features: Additional premium features (e.g., more detailed campaign analy
 User Data Protection: Ensure all user data, including payment information, is securely handled and stored.
 Payment Processing: Use a trusted third-party payment processor to handle payments securely.
 
-Type and database reference always will be schema.sql and types.d.ts files
+Type and database reference always will be schema.sql and types.ts files
 Supabase request always be done through the api routes. client side usage is forbidden

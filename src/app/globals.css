@@ -1,13 +1,62 @@
 @import "tailwindcss";
+@import "./components/ui/shadcn.css";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* Base colors */
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f4f6;
+  --secondary-foreground: #1f2937;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+  --accent: #f3f4f6;
+  --accent-foreground: #1f2937;
+  
+  /* UI colors */
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --popover: #ffffff;
+  --popover-foreground: #171717;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  
+  /* Semantic colors */
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --success: #22c55e;
+  --success-foreground: #ffffff;
+  --warning: #f59e0b;
+  --warning-foreground: #ffffff;
+  
+  /* Radius and shadows */
+  --radius: 0.5rem;
+  --ring: #2563eb;
 }
 
 .dark {
   --background: #0a0a0a;
   --foreground: #ededed;
+  
+  /* Base colors */
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #1f2937;
+  --secondary-foreground: #f3f4f6;
+  --muted: #1f2937;
+  --muted-foreground: #9ca3af;
+  --accent: #1f2937;
+  --accent-foreground: #f3f4f6;
+  
+  /* UI colors */
+  --card: #111827;
+  --card-foreground: #ededed;
+  --popover: #111827;
+  --popover-foreground: #ededed;
+  --border: #374151;
+  --input: #374151;
 }
 
 @theme inline {
@@ -27,4 +76,47 @@ body {
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Fix for select dropdown background */
+.select-content {
+  background-color: var(--popover);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Ensure dropdown items are visible */
+[data-radix-popper-content-wrapper] {
+  background-color: var(--popover) !important;
+  color: var(--popover-foreground) !important;
+  z-index: 50 !important;
+}
+
+/* Ensure select items have proper styling */
+.select-item {
+  cursor: pointer;
+}
+
+.select-item[data-highlighted] {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Ensure proper focus states for all interactive elements */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
 }

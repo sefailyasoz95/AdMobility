@@ -1,0 +1,165 @@
+/* shadcn.css - Custom styles for shadcn components */
+
+/* Select component styles */
+.SelectContent {
+  background-color: var(--popover);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  z-index: 50;
+  overflow: hidden;
+}
+
+.SelectItem {
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.SelectItem[data-highlighted="true"] {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.SelectItem[data-disabled="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Dropdown menu styles */
+.DropdownMenuContent,
+.DropdownMenuSubContent {
+  background-color: var(--popover);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  z-index: 50;
+  overflow: hidden;
+}
+
+.DropdownMenuItem {
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.DropdownMenuItem[data-highlighted="true"] {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.DropdownMenuItem[data-disabled="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Dialog and modal styles */
+.DialogOverlay,
+.DialogContent {
+  z-index: 50;
+}
+
+.DialogOverlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  inset: 0;
+}
+
+.DialogContent {
+  background-color: var(--background);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  max-width: 32rem;
+  width: 90vw;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+/* Form control styles */
+.FormItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.FormLabel {
+  font-weight: 500;
+}
+
+.FormDescription {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.FormMessage {
+  font-size: 0.875rem;
+  color: var(--destructive);
+}
+
+/* Input styles */
+.Input {
+  background-color: transparent;
+  border: 1px solid var(--input);
+  border-radius: var(--radius);
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease-in-out;
+}
+
+.Input:focus {
+  outline: none;
+  border-color: var(--ring);
+  box-shadow: 0 0 0 1px var(--ring);
+}
+
+/* Button styles */
+.Button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.Button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Checkbox styles */
+.Checkbox {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--input);
+}
+
+.Checkbox[data-state="checked"] {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* Card styles */
+.Card {
+  background-color: var(--card);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.CardHeader {
+  padding: 1.5rem 1.5rem 0;
+}
+
+.CardContent {
+  padding: 1.5rem;
+}
+
+.CardFooter {
+  padding: 0 1.5rem 1.5rem;
+}
+
+/* Fix for Radix UI popover positioning */
+[data-radix-popper-content-wrapper] {
+  z-index: 50 !important;
+} 
