@@ -1,33 +1,35 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "./components/ui/toaster";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+	variable: "--font-geist-sans",
+	subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+	variable: "--font-geist-mono",
+	subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "AdMobility",
-  description: "Turn your vehicle into a revenue stream",
+	title: "AdMobility",
+	description: "Turn your vehicle into a revenue stream",
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+	return (
+		<html lang='en' suppressHydrationWarning>
+			<head>
+				<script
+					dangerouslySetInnerHTML={{
+						__html: `
             (function() {
               try {
                 const storedTheme = localStorage.getItem('theme');
@@ -44,14 +46,15 @@ export default function RootLayout({
               }
             })();
           `,
-          }}
-        />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
-      >
-        {children}
-      </body>
-    </html>
-  );
+					}}
+				/>
+			</head>
+			<body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}>
+				<AuthProvider>
+					<Toaster />
+					{children}
+				</AuthProvider>
+			</body>
+		</html>
+	);
 }
