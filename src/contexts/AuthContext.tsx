@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { toast } from "sonner";
 import type { User } from "@/lib/types";
 
@@ -9,6 +9,7 @@ type AuthContextType = {
 	user: User | null;
 	userRole: "vehicle_owner" | "advertiser" | null;
 	isLoading: boolean;
+	hasVehicle: boolean;
 	signIn: (email: string, password: string) => Promise<void>;
 	signOut: () => Promise<void>;
 };
@@ -19,7 +20,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const [user, setUser] = useState<User | null>(null);
 	const [userRole, setUserRole] = useState<"vehicle_owner" | "advertiser" | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
+	const [hasVehicle, setHasVehicle] = useState(false);
 	const router = useRouter();
+	const pathname = usePathname();
 
 	useEffect(() => {
 		const fetchUserData = async () => {
@@ -33,14 +36,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 				if (data.user) {
 					setUser(data.user);
 					setUserRole(data.userRole);
+
+					// If user is a vehicle owner, check if they have registered a vehicle
+					if (data.userRole === "vehicle_owner") {
+						const vehicleResponse = await fetch(`/api/vehicles?ownerId=${data.user.id}`);
+						if (vehicleResponse.ok) {
+							const vehicleData = await vehicleResponse.json();
+							const hasRegisteredVehicle = Array.isArray(vehicleData.vehicles) && vehicleData.vehicles.length > 0;
+							setHasVehicle(hasRegisteredVehicle);
+						}
+					}
 				} else {
 					setUser(null);
 					setUserRole(null);
+					setHasVehicle(false);
 				}
 			} catch (error) {
 				console.error("Error fetching user data:", error);
 				setUser(null);
 				setUserRole(null);
+				setHasVehicle(false);
 			} finally {
 				setIsLoading(false);
 			}
@@ -53,6 +68,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 		return () => clearInterval(interval);
 	}, []);
+
+	// Redirect vehicle owners without a vehicle to the registration page
+	useEffect(() => {
+		if (!isLoading && user && userRole === "vehicle_owner" && !hasVehicle) {
+			const allowedPaths = ["/dashboard/vehicle/new", "/onboarding/vehicle-info", "/api", "/logout"];
+
+			// Check if the current path is allowed
+			const isAllowedPath = allowedPaths.some((path) => pathname?.startsWith(path));
+
+			if (!isAllowedPath && pathname !== "/dashboard/vehicle/new") {
+				toast.info("Please register your vehicle to continue");
+				router.push("/dashboard/vehicle/new");
+			}
+		}
+	}, [isLoading, user, userRole, hasVehicle, pathname, router]);
 
 	const signIn = async (email: string, password: string) => {
 		try {
@@ -95,6 +125,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 			setUser(null);
 			setUserRole(null);
+			setHasVehicle(false);
 
 			toast.success("Signed out successfully!");
 			router.push("/");
@@ -109,6 +140,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		user,
 		userRole,
 		isLoading,
+		hasVehicle,
 		signIn,
 		signOut,
 	};
