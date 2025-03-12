@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
@@ -24,12 +24,13 @@ import { Button } from "@/app/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/components/ui/select";
 import { Textarea } from "@/app/components/ui/textarea";
+import { vehicleMakes, vehicleModelsByMake, vehicleYears, vehicleColors } from "@/lib/constants/vehicles";
 
 // Form schema
 const vehicleFormSchema = z.object({
 	make: z.string().min(1, "Make is required"),
 	model: z.string().min(1, "Model is required"),
-	year: z.string().min(4, "Year is required").max(4, "Invalid year"),
+	year: z.string().min(1, "Year is required"),
 	color: z.string().min(1, "Color is required"),
 	plate_number: z.string().min(1, "License plate is required"),
 	vin: z.string().min(17, "VIN must be 17 characters").max(17, "VIN must be 17 characters"),
@@ -49,6 +50,7 @@ export default function NewVehiclePage() {
 	const [currentStep, setCurrentStep] = useState(1);
 	const [vehicleImage, setVehicleImage] = useState<File | null>(null);
 	const [imagePreview, setImagePreview] = useState<string | null>(null);
+	const [availableModels, setAvailableModels] = useState<string[]>([]);
 
 	const form = useForm<VehicleFormValues>({
 		resolver: zodResolver(vehicleFormSchema),
@@ -66,6 +68,24 @@ export default function NewVehiclePage() {
 			description: "",
 		},
 	});
+
+	// Watch for make changes to update model options
+	const selectedMake = form.watch("make");
+
+	useEffect(() => {
+		if (selectedMake) {
+			const models = vehicleModelsByMake[selectedMake] || [];
+			setAvailableModels(models);
+
+			// Reset model if the current one isn't available for the new make
+			const currentModel = form.getValues("model");
+			if (currentModel && !models.includes(currentModel)) {
+				form.setValue("model", "");
+			}
+		} else {
+			setAvailableModels([]);
+		}
+	}, [selectedMake, form]);
 
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files[0]) {
@@ -214,9 +234,20 @@ export default function NewVehiclePage() {
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>Make</FormLabel>
-													<FormControl>
-														<Input placeholder='Toyota, Honda, etc.' {...field} />
-													</FormControl>
+													<Select onValueChange={field.onChange} defaultValue={field.value}>
+														<FormControl>
+															<SelectTrigger>
+																<SelectValue placeholder='Select a make' />
+															</SelectTrigger>
+														</FormControl>
+														<SelectContent>
+															{vehicleMakes.map((make) => (
+																<SelectItem key={make} value={make}>
+																	{make}
+																</SelectItem>
+															))}
+														</SelectContent>
+													</Select>
 													<FormMessage />
 												</FormItem>
 											)}
@@ -227,9 +258,20 @@ export default function NewVehiclePage() {
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>Model</FormLabel>
-													<FormControl>
-														<Input placeholder='Camry, Civic, etc.' {...field} />
-													</FormControl>
+													<Select onValueChange={field.onChange} defaultValue={field.value} disabled={!selectedMake}>
+														<FormControl>
+															<SelectTrigger>
+																<SelectValue placeholder={selectedMake ? "Select a model" : "Select a make first"} />
+															</SelectTrigger>
+														</FormControl>
+														<SelectContent>
+															{availableModels.map((model) => (
+																<SelectItem key={model} value={model}>
+																	{model}
+																</SelectItem>
+															))}
+														</SelectContent>
+													</Select>
 													<FormMessage />
 												</FormItem>
 											)}
@@ -240,9 +282,20 @@ export default function NewVehiclePage() {
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>Year</FormLabel>
-													<FormControl>
-														<Input placeholder='2023' {...field} />
-													</FormControl>
+													<Select onValueChange={field.onChange} defaultValue={field.value}>
+														<FormControl>
+															<SelectTrigger>
+																<SelectValue placeholder='Select year' />
+															</SelectTrigger>
+														</FormControl>
+														<SelectContent>
+															{vehicleYears.map((year) => (
+																<SelectItem key={year} value={year}>
+																	{year}
+																</SelectItem>
+															))}
+														</SelectContent>
+													</Select>
 													<FormMessage />
 												</FormItem>
 											)}
@@ -253,9 +306,20 @@ export default function NewVehiclePage() {
 											render={({ field }) => (
 												<FormItem>
 													<FormLabel>Color</FormLabel>
-													<FormControl>
-														<Input placeholder='White, Black, etc.' {...field} />
-													</FormControl>
+													<Select onValueChange={field.onChange} defaultValue={field.value}>
+														<FormControl>
+															<SelectTrigger>
+																<SelectValue placeholder='Select color' />
+															</SelectTrigger>
+														</FormControl>
+														<SelectContent>
+															{vehicleColors.map((color) => (
+																<SelectItem key={color} value={color}>
+																	{color}
+																</SelectItem>
+															))}
+														</SelectContent>
+													</Select>
 													<FormMessage />
 												</FormItem>
 											)}
