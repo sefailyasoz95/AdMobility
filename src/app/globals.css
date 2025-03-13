@@ -1,64 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@import "tailwindcss";
-@import "./components/ui/shadcn.css";
-@layer base { 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-  
-  /* Base colors */
-  --primary: #2563eb;
-  --primary-foreground: #ffffff;
-  --secondary: #f3f4f6;
-  --secondary-foreground: #1f2937;
-  --muted: #f3f4f6;
-  --muted-foreground: #6b7280;
-  --accent: #f3f4f6;
-  --accent-foreground: #1f2937;
-  
-  /* UI colors */
-  --card: #ffffff;
-  --card-foreground: #171717;
-  --popover: #ffffff;
-  --popover-foreground: #171717;
-  --border: #e5e7eb;
-  --input: #e5e7eb;
-  
-  /* Semantic colors */
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-  --success: #22c55e;
-  --success-foreground: #ffffff;
-  --warning: #f59e0b;
-  --warning-foreground: #ffffff;
-  
-  /* Radius and shadows */
-  --radius: 0.5rem;
-  --ring: #2563eb;
-}
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
 
-.dark {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+    /* Base colors */
+    --primary: #2563eb;
+    --primary-foreground: #ffffff;
+    --secondary: #f3f4f6;
+    --secondary-foreground: #1f2937;
+    --muted: #f3f4f6;
+    --muted-foreground: #6b7280;
+    --accent: #f3f4f6;
+    --accent-foreground: #1f2937;
+
+    /* UI colors */
+    --card: #ffffff;
+    --card-foreground: #171717;
+    --popover: #ffffff;
+    --popover-foreground: #171717;
+    --border: #e5e7eb;
+    --input: #e5e7eb;
+
+    /* Semantic colors */
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --success: #22c55e;
+    --success-foreground: #ffffff;
+    --warning: #f59e0b;
+    --warning-foreground: #ffffff;
+
+    /* Radius and shadows */
+    --radius: 0.5rem;
+    --ring: #2563eb;
+  }
+
+  .dark {
+    --background: #0a0a0a;
+    --foreground: #ededed;
   
-  /* Base colors */
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
-  --secondary: #1f2937;
-  --secondary-foreground: #f3f4f6;
-  --muted: #1f2937;
-  --muted-foreground: #9ca3af;
-  --accent: #1f2937;
-  --accent-foreground: #f3f4f6;
+    /* Base colors */
+    --primary: #3b82f6;
+    --primary-foreground: #ffffff;
+    --secondary: #1f2937;
+    --secondary-foreground: #f3f4f6;
+    --muted: #1f2937;
+    --muted-foreground: #9ca3af;
+    --accent: #1f2937;
+    --accent-foreground: #f3f4f6;
   
-  /* UI colors */
-  --card: #111827;
-  --card-foreground: #ededed;
-  --popover: #111827;
-  --popover-foreground: #ededed;
-  --border: #374151;
-  --input: #374151;
-}
+    /* UI colors */
+    --card: #111827;
+    --card-foreground: #ededed;
+    --popover: #111827;
+    --popover-foreground: #ededed;
+    --border: #374151;
+    --input: #374151;
+  
+    /* Semantic colors */
+    --destructive: #f87171;
+    --destructive-foreground: #ffffff;
+    --success: #4ade80;
+    --success-foreground: #ffffff;
+    --warning: #fbbf24;
+    --warning-foreground: #ffffff;
+  
+    /* Radius and shadows */
+    --ring: #3b82f6;
+  }
 }
 
 @theme inline {
@@ -69,7 +81,9 @@
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  color: var(--foreground);
+
   font-family: var(--font-sans, Arial, Helvetica, sans-serif);
 }
 
@@ -77,15 +91,183 @@ body {
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
+
+  /* shadcn.css - Custom styles for shadcn components */
+
+  /* Select component styles */
+  .SelectContent {
+    background-color: var(--popover);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    z-index: 50;
+    overflow: hidden;
+  }
+
+  .SelectItem {
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .SelectItem[data-highlighted="true"] {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  .SelectItem[data-disabled="true"] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* Dropdown menu styles */
+  .DropdownMenuContent,
+  .DropdownMenuSubContent {
+    background-color: var(--popover);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    z-index: 50;
+    overflow: hidden;
+  }
+
+  .DropdownMenuItem {
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .DropdownMenuItem[data-highlighted="true"] {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  .DropdownMenuItem[data-disabled="true"] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* Dialog and modal styles */
+  .DialogOverlay,
+  .DialogContent {
+    z-index: 50;
+  }
+
+  .DialogOverlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    inset: 0;
+  }
+
+  .DialogContent {
+    background-color: var(--background);
+    border-radius: var(--radius);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    max-width: 32rem;
+    width: 90vw;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  /* Form control styles */
+  .FormItem {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .FormLabel {
+    font-weight: 500;
+  }
+
+  .FormDescription {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+  }
+
+  .FormMessage {
+    font-size: 0.875rem;
+    color: var(--destructive);
+  }
+
+  /* Input styles */
+  .Input {
+    background-color: transparent;
+    border: 1px solid var(--input);
+    border-radius: var(--radius);
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    transition: border-color 0.2s ease-in-out;
+  }
+
+  .Input:focus {
+    outline: none;
+    border-color: var(--ring);
+    box-shadow: 0 0 0 1px var(--ring);
+  }
+
+  /* Button styles */
+  .Button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius);
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .Button:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  /* Checkbox styles */
+  .Checkbox {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.25rem;
+    border: 1px solid var(--input);
+  }
+
+  .Checkbox[data-state="checked"] {
+    background-color: var(--primary);
+    border-color: var(--primary);
+  }
+
+  /* Card styles */
+  .Card {
+    background-color: var(--card);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .CardHeader {
+    padding: 1.5rem 1.5rem 0;
+  }
+
+  .CardContent {
+    padding: 1.5rem;
+  }
+
+  .CardFooter {
+    padding: 0 1.5rem 1.5rem;
+  }
+
+  /* Fix for Radix UI popover positioning */
+  [data-radix-popper-content-wrapper] {
+    z-index: 50 !important;
+  }
 }
 
 @keyframes float {
   0% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-10px);
   }
+
   100% {
     transform: translateY(0px);
   }
